@@ -13,10 +13,6 @@ app = FastAPI()
 class TextInput(BaseModel):
     text: str
 
-def softmax(x):
-    x = x - x.max(axis=1, keepdims=True)
-    exp_x = np.exp(x)
-    return exp_x / exp_x.sum(axis=1, keepdims=True)
 
 @app.post("/predict")
 def predict(input: TextInput):
