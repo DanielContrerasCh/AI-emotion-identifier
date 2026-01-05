@@ -4,6 +4,8 @@ import TextInput from "../../components/atoms/TextInput";
 export default function EmotionAnalyzer({ onAnalyze }) {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const submitBtnStyle = {
     backgroundColor: "#16a34a",
@@ -16,23 +18,30 @@ export default function EmotionAnalyzer({ onAnalyze }) {
     boxShadow: "0 2px 8px rgba(22,163,74,0.18)",
   };
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e?.preventDefault();
     if (!text.trim()) return;
-    const hardcoded = {
-      fear: 0.12,
-      anger: 0.08,
-      anticip: 0.34,
-      trust: 0.46,
-      surprise: 0.18,
-      positive: 0.52,
-      negative: 0.09,
-      sadness: 0.07,
-      disgust: 0.02,
-      joy: 0.58,
-    };
-    setSubmitted({ text: text.trim(), emotions: hardcoded });
-    if (typeof onAnalyze === "function") onAnalyze(hardcoded);
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const apiUrl = "http://localhost:8000/predict";
+      const resp = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text.trim() }),
+      });
+      if (!resp.ok) throw new Error(`API error ${resp.status}`);
+      const emotions = await resp.json();
+
+      setSubmitted({ text: text.trim(), emotions });
+      if (typeof onAnalyze === "function") onAnalyze(emotions);
+    } catch (err) {
+      setError("Failed to analyze — using local fallback.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -45,11 +54,13 @@ export default function EmotionAnalyzer({ onAnalyze }) {
         />
         <div style={{ height: 12 }} />
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button type="submit" style={submitBtnStyle}>
-            Analyze
+          <button type="submit" style={submitBtnStyle} disabled={loading}>
+            {loading ? "Analyzing…" : "Analyze"}
           </button>
         </div>
       </form>
+
+      {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
 
       {submitted && (
         <div className="submitted">
