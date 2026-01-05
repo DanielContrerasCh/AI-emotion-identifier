@@ -58,7 +58,15 @@ export default function EmotionGrid({ emotions = {} }) {
   ];
 
   return (
-    <div className="emotion-grid">
+    <div
+      className="emotion-grid"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+        gap: 16,
+        alignItems: "center"
+      }}
+    >
       {names.map((n) => {
         const val = emotions[n] ?? 0;
         return (

@@ -28,19 +28,19 @@ export default function EmotionAnalyzer({ onAnalyze }) {
     <>
       <form onSubmit={handleSubmit} className="controls">
         <TextInput
-          placeholder="Escribe aquí..."
+          placeholder="Type here..."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
         <div style={{ height: 12 }} />
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button type="submit" className="submit-btn">Analizar</button>
+          <button type="submit" className="submit-btn">Analyze</button>
         </div>
       </form>
 
       {submitted && (
         <div className="submitted">
-          <strong>Reseña enviada:</strong>
+          <strong>Submitted review:</strong>
           <p>{submitted.text}</p>
         </div>
       )}

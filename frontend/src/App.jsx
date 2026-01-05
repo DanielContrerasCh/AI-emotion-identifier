@@ -9,17 +9,16 @@ export default function App() {
     <div className="app">
       <div className="card">
         <h1 className="title">AI Emotion Identifier</h1>
-        <p className="subtitle">Escribe una reseña para analizar emociones</p>
+        <p className="subtitle">Input a review to analyze the emotions</p>
 
         <EmotionAnalyzer onAnalyze={(emotions) => setAnalysis(emotions)} />
 
-        
-      </div>
-      {analysis && (
+        {analysis && (
           <div style={{ marginTop: 16 }}>
             <EmotionGrid emotions={analysis} />
           </div>
         )}
+      </div>
     </div>
   );
 }
