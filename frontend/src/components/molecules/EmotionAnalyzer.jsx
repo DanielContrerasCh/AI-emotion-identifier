@@ -5,6 +5,17 @@ export default function EmotionAnalyzer({ onAnalyze }) {
   const [text, setText] = useState("");
   const [submitted, setSubmitted] = useState(null);
 
+  const submitBtnStyle = {
+    backgroundColor: "#16a34a",
+    color: "#ffffff",
+    border: "none",
+    padding: "10px 16px",
+    borderRadius: 8,
+    cursor: "pointer",
+    fontWeight: 600,
+    boxShadow: "0 2px 8px rgba(22,163,74,0.18)",
+  };
+
   function handleSubmit(e) {
     e?.preventDefault();
     if (!text.trim()) return;
@@ -34,7 +45,9 @@ export default function EmotionAnalyzer({ onAnalyze }) {
         />
         <div style={{ height: 12 }} />
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button type="submit" className="submit-btn">Analyze</button>
+          <button type="submit" style={submitBtnStyle}>
+            Analyze
+          </button>
         </div>
       </form>
 
