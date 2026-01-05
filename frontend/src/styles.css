@@ -68,3 +68,73 @@ body{
   border-color: var(--accent);
   box-shadow: 0 6px 24px rgba(14,20,32,0.6);
 }
+
+.emotion-grid{
+  margin-top:14px;
+  display:flex;
+  flex-direction:row;
+  gap:12px;
+  flex-wrap:wrap; /* permite que baje en pantallas pequeñas */
+  align-items:flex-start;
+}
+
+.emotion-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:6px;
+  min-width:84px;
+  max-width:120px;
+  background: rgba(255,255,255,0.01);
+  border-radius:8px;
+}
+
+.icon-wrap{
+  position:relative;
+  width:72px;
+  height:72px;
+  flex:0 0 72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ring{ position:absolute; left:0; top:0; }
+
+.emoji{
+  position:relative;
+  z-index:2;
+  font-size:24px;
+  pointer-events:none;
+  width:100%;
+  text-align:center;
+  line-height:1;
+}
+
+.meta{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.emotion-label{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:capitalize;
+}
+
+.emotion-value{
+  margin-top:4px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+/* responsive tweaks */
+@media (max-width:520px){
+  .emotion-item{ min-width:70px; max-width:90px; padding:4px; }
+  .emoji{ font-size:20px; }
+  .icon-wrap{ width:56px; height:56px; flex:0 0 56px; }
+  .ring{ transform-origin:center; }
+}
