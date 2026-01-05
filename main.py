@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.multioutput import MultiOutputRegressor
@@ -17,9 +18,9 @@ def predict_emotions(text, model, emotion_names):
     return dict(zip(emotion_names, y_pred[0]))
 
 #preprocessing, normalizes training data
-training_set = pd.read_csv("cleaned_amazon_reviews.csv")
+'''training_set = pd.read_csv("cleaned_amazon_reviews.csv")
 review = training_set["cleaned_review"]
-emotion_names = ["fear", "anger", "trust", "surprise", "sadness", "disgust", "joy"]
+
 emotions = training_set[emotion_names].values
 non_zero_mask = ~np.all(emotions == 0, axis=1)
 review = review[non_zero_mask]
@@ -33,7 +34,10 @@ y_train = emotions
 tfidf = TfidfVectorizer(ngram_range=(1,2), max_features=50000)
 ridge = MultiOutputRegressor(Ridge(alpha = 0.6)) # alpha optimized through gridsearch
 pipe = make_pipeline(tfidf, ridge)
-pipe.fit(X_train, y_train)
+pipe.fit(X_train, y_train)'''
+emotion_names = ["fear", "anger", "trust", "surprise", "sadness", "disgust", "joy"]
+pipe = joblib.load("emotion_model.joblib")
+
 
 while True:
     user_text = input("\nEnter a review (or 'q' to exit):\n> ")
