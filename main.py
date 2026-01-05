@@ -8,8 +8,15 @@ from sklearn.pipeline import make_pipeline
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import GridSearchCV
 
+def predict_emotions(text, model, emotion_names):
+    y_pred = model.predict([text])
 
+    y_pred = np.clip(y_pred, 0, None)
+    y_pred = y_pred / y_pred.sum(axis=1, keepdims=True) #normalizes predictions (always add up to 1 total.)
 
+    return dict(zip(emotion_names, y_pred[0]))
+
+#preprocessing, normalizes training data
 training_set = pd.read_csv("cleaned_amazon_reviews.csv")
 review = training_set["cleaned_review"]
 emotion_names = ["fear", "anger", "trust", "surprise", "sadness", "disgust", "joy"]
@@ -19,30 +26,24 @@ review = review[non_zero_mask]
 emotions = emotions[non_zero_mask]
 row_sums = emotions.sum(axis=1, keepdims=True)
 emotions = emotions / row_sums
-X_train, X_test, y_train, y_test = train_test_split(review, emotions, test_size=0.15, random_state=42)
-
+X_train = review
+y_train = emotions
 
 
 tfidf = TfidfVectorizer(ngram_range=(1,2), max_features=50000)
-ridge = MultiOutputRegressor(Ridge(alpha = 0.6))
+ridge = MultiOutputRegressor(Ridge(alpha = 0.6)) # alpha optimized through gridsearch
 pipe = make_pipeline(tfidf, ridge)
 pipe.fit(X_train, y_train)
 
-y_pred = pipe.predict(X_test)
-y_true = np.array(y_test)
-y_pred = np.squeeze(y_pred)
-y_pred = np.clip(y_pred, 0, 1)
-y_pred = y_pred / y_pred.sum(axis=1, keepdims=True)
+while True:
+    user_text = input("\nEnter a review (or 'q' to exit):\n> ")
+    if user_text.lower() == "q":
+        break
 
+    emotions_pred = predict_emotions(user_text, pipe, emotion_names)
 
-top3_accuracy = top_k_match(y_true, y_pred, k=3)
-
-
-print("MAE per emotion:", mean_absolute_error(y_test, y_pred, multioutput='raw_values'))
-print("Mean MAE:", mean_absolute_error(y_test, y_pred))
-mean_values = y_train.mean(axis=0)
-baseline_pred = np.tile(mean_values, (len(y_test), 1))
-
-print("Baseline MAE:", mean_absolute_error(y_test, baseline_pred))
-corr = np.corrcoef(y_test.flatten(), y_pred.flatten())[0,1]
-print("Correlation:", corr)
+    print("\nPredicted emotions:")
+    for emotion, score in sorted(
+        emotions_pred.items(), key=lambda x: x[1], reverse=True
+    ):
+        print(f"  {emotion:9s}: {score:.3f}")
