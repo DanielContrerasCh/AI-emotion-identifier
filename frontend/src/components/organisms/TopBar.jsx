@@ -28,7 +28,7 @@ export default function TopBar() {
 
 			<InfoModal open={open} onClose={() => setOpen(false)} title="Emotiolyzer">
 				<p style={{ marginTop: 0 }}>
-					Emotiolyzer analyzes text to estimate emotions and displays a visualization by category.
+					Emotiolyzer analyzes text in a product review to estimate emotions and displays a visualization by category.
 				</p>
 				<p>
 					How to use:
