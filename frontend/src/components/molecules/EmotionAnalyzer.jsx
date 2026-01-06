@@ -22,12 +22,14 @@ export default function EmotionAnalyzer({ onAnalyze }) {
     const trimmed = text.trim();
     if (!trimmed) {
       setError("Please enter some text.");
+      if (typeof onAnalyze === "function") onAnalyze(null);
       return;
     }
     // client-side word count validation: require at least 20 words
     const words = trimmed.split(/\s+/).filter(Boolean);
     if (words.length < 20) {
       setError("Please enter at least 20 words for a reliable analysis.");
+      if (typeof onAnalyze === "function") onAnalyze(null);
       return;
     }
 
