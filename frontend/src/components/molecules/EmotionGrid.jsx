@@ -9,7 +9,8 @@ const EMOJI = {
   negative: "👎",
   sadness: "😢",
   disgust: "🤢",
-  joy: "😊"
+  joy: "😊",
+  others: "🔸" // icon for grouped small emotions
 };
 
 function Ring({ value = 0, size = 72, stroke = 8, color = "#6ee7b7" }) {
@@ -55,22 +56,30 @@ export default function EmotionGrid({ emotions = {} }) {
     "joy"
   ];
 
-  // Only show emotions > 5%
-  const visible = names.filter((n) => (emotions[n] ?? 0) > 0.05);
+  // separate main (>5%) and small (<=5% but >0) emotions
+  const mainVisible = names.filter((n) => (emotions[n] ?? 0) > 0.05);
+  const small = names.filter((n) => {
+    const v = emotions[n] ?? 0;
+    return v > 0 && v <= 0.05;
+  });
+  const othersSum = small.reduce((s, n) => s + (emotions[n] ?? 0), 0);
+
+  // build visible list and include "others" if applicable
+  const visible = [...mainVisible];
+  if (othersSum > 0) visible.push("others");
 
   return (
     <div
       className="emotion-grid"
       style={{
         display: "grid",
-        // adapt columns to number of visible items (max 5)
         gridTemplateColumns: `repeat(${Math.min(5, Math.max(1, visible.length))}, 1fr)`,
         gap: 16,
         alignItems: "center"
       }}
     >
       {visible.map((n) => {
-        const val = emotions[n] ?? 0;
+        const val = n === "others" ? othersSum : emotions[n] ?? 0;
         return (
           <div className="emotion-item" key={n}>
             <div className="icon-wrap">
