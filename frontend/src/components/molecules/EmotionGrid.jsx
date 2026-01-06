@@ -3,7 +3,6 @@ import React from "react";
 const EMOJI = {
   fear: "😨",
   anger: "😡",
-  anticip: "🔮",
   trust: "🤝",
   surprise: "😲",
   positive: "👍",
@@ -47,7 +46,6 @@ export default function EmotionGrid({ emotions = {} }) {
   const names = [
     "fear",
     "anger",
-    "anticip",
     "trust",
     "surprise",
     "positive",
