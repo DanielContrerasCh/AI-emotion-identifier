@@ -28,6 +28,70 @@ body{
   padding:96px 24px 24px; /* leave room for fixed topbar (≈64px) + spacing */
 }
 
+/* Topbar styling to make it stand out */
+.topbar{
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  background: linear-gradient(90deg, rgba(9,14,20,0.96), rgba(12,18,28,0.95));
+  border-bottom: 1px solid rgba(110,231,183,0.08);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  backdrop-filter: blur(6px) saturate(120%);
+  z-index:1000;
+  color: #eaf6f0;
+}
+
+/* Title in the topbar with accent color */
+.topbar h1{
+  margin:0;
+  font-size:20px;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:0.2px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.45);
+}
+
+/* left/right placeholders to keep title visually centered */
+.topbar > .topbar-left,
+.topbar > .topbar-right{
+  position:absolute;
+  top:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.topbar > .topbar-left{ left:16px; }
+.topbar > .topbar-right{ right:16px; }
+
+/* Accent-styled help button */
+.topbar button[aria-label="Ayuda"]{
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(110,231,183,0.12);
+  color: var(--accent);
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+  min-width:36px;
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+.topbar button[aria-label="Ayuda"]:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(14,20,32,0.5);
+  background: rgba(110,231,183,0.03);
+}
+
 .card{
   width:100%;
   max-width:760px;

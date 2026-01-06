@@ -7,29 +7,14 @@ export default function TopBar() {
 
 	return (
 		<>
-			<header
-				className="topbar"
-				style={{
-					position: "fixed",
-					left: 0,
-					right: 0,
-					top: 0,
-					zIndex: 50,
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					height: 64,
-					background: "#0f172a",
-					color: "#fff",
-					padding: "0 16px",
-					boxShadow: "0 1px 0 rgba(255,255,255,0.03)"
-				}}
-			>
-				<div style={{ position: "absolute", left: 16 }}>
+			<header className="topbar">
+				<div className="topbar-left">
 					{/* espacio para balancear el título centrado */}
 				</div>
-				<h1 style={{ margin: 0, fontSize: 20 }}>Emotiolyzer</h1>
-				<div style={{ position: "absolute", right: 16 }}>
+
+				<h1>Emotiolyzer</h1>
+
+				<div className="topbar-right">
 					<IconButton ariaLabel="Ayuda" onClick={() => setOpen(true)}>?</IconButton>
 				</div>
 			</header>
