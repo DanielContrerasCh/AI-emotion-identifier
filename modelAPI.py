@@ -1,9 +1,10 @@
 import numpy as np
 import joblib
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import re
 
 # Load trained model
 pipe = joblib.load("emotion_model.joblib")
@@ -23,12 +24,25 @@ app.add_middleware(
 class TextInput(BaseModel):
     text: str
 
+def _word_count(text: str) -> int:
+    if not text:
+        return 0
+    # split on whitespace, count non-empty tokens
+    return len([t for t in re.split(r"\s+", text.strip()) if t])
+
 @app.get("/")
 def health():
     return {"status": "ok"}
 
 @app.post("/predict")
 def predict(input: TextInput):
+    # server-side word-count validation: require at least 20 words
+    if _word_count(input.text) < 20:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Input must contain at least 20 words for reliable prediction."
+        )
+
     y_pred = pipe.predict([input.text])
 
     y_pred = np.clip(y_pred, 0, None)

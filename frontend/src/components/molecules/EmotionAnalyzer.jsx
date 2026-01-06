@@ -20,7 +20,17 @@ export default function EmotionAnalyzer({ onAnalyze }) {
 
   async function handleSubmit(e) {
     e?.preventDefault();
-    if (!text.trim()) return;
+    const trimmed = text.trim();
+    if (!trimmed) {
+      setError("Please enter some text.");
+      return;
+    }
+    // client-side word count validation: require at least 20 words
+    const words = trimmed.split(/\s+/).filter(Boolean);
+    if (words.length < 20) {
+      setError("Please enter at least 20 words for a reliable analysis.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -30,12 +40,12 @@ export default function EmotionAnalyzer({ onAnalyze }) {
       const resp = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text.trim() }),
+        body: JSON.stringify({ text: trimmed }),
       });
       if (!resp.ok) throw new Error(`API error ${resp.status}`);
       const emotions = await resp.json();
 
-      setSubmitted({ text: text.trim(), emotions });
+      setSubmitted({ text: trimmed, emotions });
       if (typeof onAnalyze === "function") onAnalyze(emotions);
     } catch (err) {
       setError("Failed to analyze — using local fallback.");
