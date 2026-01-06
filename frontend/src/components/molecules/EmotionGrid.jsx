@@ -55,17 +55,21 @@ export default function EmotionGrid({ emotions = {} }) {
     "joy"
   ];
 
+  // Only show emotions > 5%
+  const visible = names.filter((n) => (emotions[n] ?? 0) > 0.05);
+
   return (
     <div
       className="emotion-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
+        // adapt columns to number of visible items (max 5)
+        gridTemplateColumns: `repeat(${Math.min(5, Math.max(1, visible.length))}, 1fr)`,
         gap: 16,
         alignItems: "center"
       }}
     >
-      {names.map((n) => {
+      {visible.map((n) => {
         const val = emotions[n] ?? 0;
         return (
           <div className="emotion-item" key={n}>
