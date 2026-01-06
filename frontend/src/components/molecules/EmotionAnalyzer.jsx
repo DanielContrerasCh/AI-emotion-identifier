@@ -3,7 +3,6 @@ import TextInput from "../../components/atoms/TextInput";
 
 export default function EmotionAnalyzer({ onAnalyze }) {
   const [text, setText] = useState("");
-  const [submitted, setSubmitted] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -45,7 +44,6 @@ export default function EmotionAnalyzer({ onAnalyze }) {
       if (!resp.ok) throw new Error(`API error ${resp.status}`);
       const emotions = await resp.json();
 
-      setSubmitted({ text: trimmed, emotions });
       if (typeof onAnalyze === "function") onAnalyze(emotions);
     } catch (err) {
       setError("Failed to analyze — using local fallback.");
@@ -71,13 +69,6 @@ export default function EmotionAnalyzer({ onAnalyze }) {
       </form>
 
       {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
-
-      {submitted && (
-        <div className="submitted">
-          <strong>Submitted review:</strong>
-          <p>{submitted.text}</p>
-        </div>
-      )}
     </>
   );
 }
