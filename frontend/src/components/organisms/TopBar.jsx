@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import IconButton from "../atoms/IconButton";
 import InfoModal from "../molecules/InfoModal";
 
 export default function TopBar() {
@@ -15,7 +14,15 @@ export default function TopBar() {
 				<h1>Emotiolyzer</h1>
 
 				<div className="topbar-right">
-					<IconButton ariaLabel="Ayuda" onClick={() => setOpen(true)}>?</IconButton>
+					{/* reemplazado IconButton por un button nativo para controlar estilo/tooltip */}
+					<button
+						className="help-button"
+						aria-label="Help"
+						title="Help"
+						onClick={() => setOpen(true)}
+					>
+						❓
+					</button>
 				</div>
 			</header>
 
