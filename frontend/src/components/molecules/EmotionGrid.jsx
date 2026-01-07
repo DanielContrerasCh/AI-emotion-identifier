@@ -64,21 +64,32 @@ export default function EmotionGrid({ emotions = {} }) {
   });
   const othersSum = small.reduce((s, n) => s + (emotions[n] ?? 0), 0);
 
-  // build visible list and include "others" if applicable
   const visible = [...mainVisible];
   if (othersSum > 0) visible.push("others");
+
+  const entries = visible.map((n) => ({
+    key: n,
+    value: n === "others" ? othersSum : emotions[n] ?? 0
+  }));
+  entries.sort((a, b) => {
+    if (a.key === "others" && b.key === "others") return 0;
+    if (a.key === "others") return 1;
+    if (b.key === "others") return -1;
+    return b.value - a.value;
+  });
+  const sortedVisible = entries.map((e) => e.key);
 
   return (
     <div
       className="emotion-grid"
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${Math.min(5, Math.max(1, visible.length))}, 1fr)`,
+        gridTemplateColumns: `repeat(${Math.min(5, Math.max(1, sortedVisible.length))}, 1fr)`,
         gap: 16,
         alignItems: "center"
       }}
     >
-      {visible.map((n) => {
+      {sortedVisible.map((n) => {
         const val = n === "others" ? othersSum : emotions[n] ?? 0;
         return (
           <div className="emotion-item" key={n}>
