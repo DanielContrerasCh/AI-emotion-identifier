@@ -1,0 +1,234 @@
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --muted:#9aa4b2;
+  --accent:#6ee7b7;
+  --glass: rgba(255,255,255,0.03);
+  --radius:14px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  background:linear-gradient(180deg,#071127 0%, var(--bg) 100%);
+  color:#e6eef6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.app{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;      /* center horizontally */
+  justify-content:flex-start; /* do not center vertically */
+  padding:96px 24px 24px; /* leave room for fixed topbar (≈64px) + spacing */
+}
+
+/* Topbar styling to make it stand out */
+.topbar{
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  background: linear-gradient(90deg, rgba(9,14,20,0.96), rgba(12,18,28,0.95));
+  border-bottom: 1px solid rgba(110,231,183,0.08);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  backdrop-filter: blur(6px) saturate(120%);
+  z-index:1000;
+  color: #eaf6f0;
+}
+
+/* Title in the topbar with accent color */
+.topbar h1{
+  margin:0;
+  font-size:20px;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:0.2px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.45);
+}
+
+/* left/right placeholders to keep title visually centered */
+.topbar > .topbar-left,
+.topbar > .topbar-right{
+  position:absolute;
+  top:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.topbar > .topbar-left{ left:16px; }
+.topbar > .topbar-right{ right:16px; }
+
+/* Accent-styled help button */
+.topbar button[aria-label="Help"]{
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(110,231,183,0.12);
+  color: var(--accent);
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+  min-width:36px;
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+.topbar button[aria-label="Help"]:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(14,20,32,0.5);
+  background: rgba(110,231,183,0.03);
+}
+
+.card{
+  width:100%;
+  max-width:760px;
+  background:linear-gradient(180deg,var(--glass), rgba(255,255,255,0.02));
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+.title{
+  margin:0 0 6px 0;
+  font-size:20px;
+  letter-spacing:0.2px;
+}
+
+.subtitle{
+  margin:0 0 16px 0;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.text-input{
+  width:100%;
+  resize:vertical;
+  min-height:120px;
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background: rgba(10,16,24,0.6);
+  color: #eaf3ff;
+  font-size:14px;
+  outline:none;
+  transition: box-shadow .18s, border-color .18s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.text-input:focus{
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(14,20,32,0.6);
+}
+
+.emotion-grid{
+  margin-top:14px;
+  display:flex;
+  flex-direction:row;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+}
+
+.emotion-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  padding:6px;
+  min-width:84px;
+  max-width:120px;
+  background: rgba(255,255,255,0.01);
+  border-radius:8px;
+}
+
+.icon-wrap{
+  position:relative;
+  width:72px;
+  height:72px;
+  flex:0 0 72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ring{ position:absolute; left:0; top:0; }
+
+.emoji{
+  position:relative;
+  z-index:2;
+  font-size:24px;
+  pointer-events:none;
+  width:100%;
+  text-align:center;
+  line-height:1;
+}
+
+.meta{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.emotion-label{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:capitalize;
+}
+
+.emotion-value{
+  margin-top:4px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+/* Accent-styled help button (más visible y accesible) */
+.help-button{
+  background: linear-gradient(180deg, rgba(110,231,183,0.12), rgba(110,231,183,0.06));
+  color: var(--accent);
+  border: 1px solid rgba(110,231,183,0.18);
+  padding: 8px;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+  transition: transform .12s, box-shadow .12s, background .12s;
+  box-shadow: 0 4px 16px rgba(14,20,32,0.35);
+}
+.help-button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(14,20,32,0.45);
+  background: linear-gradient(180deg, rgba(110,231,183,0.18), rgba(110,231,183,0.07));
+}
+.help-button:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(110,231,183,0.12), 0 6px 24px rgba(14,20,32,0.45);
+  border-color: var(--accent);
+}
+
+/* responsive tweaks */
+@media (max-width:520px){
+  .emotion-item{ min-width:70px; max-width:90px; padding:4px; }
+  .emoji{ font-size:20px; }
+  .icon-wrap{ width:56px; height:56px; flex:0 0 56px; }
+  .ring{ transform-origin:center; }
+}
