@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import re
-
+    
 # Load trained model
 pipe = joblib.load("emotion_model.joblib")
 
