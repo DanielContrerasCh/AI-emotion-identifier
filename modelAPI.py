@@ -40,7 +40,7 @@ def predict(input: TextInput):
     if _word_count(input.text) < 20:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Input must contain at least 20 words for reliable prediction."
+            detail="Input must contain at least 20 words for prediction."
         )
 
     y_pred = pipe.predict([input.text])
